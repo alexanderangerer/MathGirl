@@ -51,7 +51,7 @@ class Program
     static void CreateTask()
     {
         bool inputResult = false;
-        bool continueCalc = true;
+        //bool continueCalc = true;
         string[] newNumber = new string[3];
         int number1;
         int number2;
