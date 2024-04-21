@@ -1,4 +1,6 @@
-﻿namespace MathGirl;
+﻿using System.Runtime.InteropServices.JavaScript;
+
+namespace MathGirl;
 
 class Program
 {
@@ -8,6 +10,13 @@ class Program
     {
         // Speichert die grösste Zahl, die für die Rechnungen benutzt werden soll.
         public static int LargestNumber = 20;
+        public static bool Continue = true;
+
+        public static char[] MathOperators = new char[]
+        {
+            '+',
+            '-'
+        };
     }
 
     static void Main(string[] args)
@@ -22,6 +31,7 @@ class Program
             switch (inputUser)
             {
                 case 1:
+                    Console.Clear();
                     CreateTask();
                     break;
                 case 2:
@@ -40,31 +50,33 @@ class Program
 
     static void CreateTask()
     {
-        Random rndNumber = new Random();
-        int number1 = rndNumber.Next(0, Global.LargestNumber);
+        bool inputResult = false;
+        bool continueCalc = true;
+        string[] newNumber = new string[3];
+        int number1;
+        int number2;
+        char mathOperator;
 
-        Console.WriteLine(number1);
-        Random oZufall = new Random();
-        byte[] aPuffer = new byte[5];
+        while (Global.Continue)
+        {
+            newNumber = NumberDetermine();
+            number1 = Convert.ToInt32(newNumber[0]);
+            number2 = Convert.ToInt32(newNumber[1]);
+            mathOperator = Convert.ToChar(newNumber[2]);
+
+            inputResult = ShowCalculation(number1, number2, mathOperator);
+
+            while (!inputResult && Global.Continue)
+            {
+                Console.WriteLine("Leider ist das falsch. Versuche es nochmals.");
+                inputResult = ShowCalculation(number1, number2, mathOperator);
+            }
+            
+                Console.WriteLine("Sehr gut. Das war richtig. Weiter gehts.");
+        }
         
-        Console.WriteLine("Zufallszahlen (Ganzzahlen 0 bis 1000):");
-        for (int i = 0; i < 5; i++)
-            Console.WriteLine(oZufall.Next(0, 1001));       // Zahlen von 0 bis 1000 (!)
-        
-        Console.WriteLine();
-        
-        Console.WriteLine("Array mit byte-Zufallszahlen:");
-        oZufall.NextBytes(aPuffer);
-        foreach (byte bPufferEintrag in aPuffer)
-            Console.WriteLine(bPufferEintrag);
-        
-        Console.WriteLine();
-        
-        Console.WriteLine("Zufallszahlen (Kommazahl 0.0 bis 1.0):");
-        for (int i = 0; i < 5; i++)
-            Console.WriteLine(oZufall.NextDouble());
-        
-        Console.ReadKey();
+        Console.Clear();
+        Global.Continue = true;
     }
 
     static void ChangeSettings()
@@ -80,6 +92,69 @@ class Program
                 Console.Write("Neue Grösste Zahl: ");
                 Global.LargestNumber = Convert.ToInt32(Console.ReadLine());
                 break;
+        }
+        Console.Clear();
+    }
+
+    static string[] NumberDetermine()
+    {
+        Random rndNumber = new Random();
+        int number1 = rndNumber.Next(0, Global.LargestNumber);
+        int number2 = rndNumber.Next(0, Global.LargestNumber);
+        int mathOperatorIndex = rndNumber.Next(0, 100);
+        string[] retunrArray = new string[3];
+        char mathOperator;
+
+        if (mathOperatorIndex % 2 == 0)
+            mathOperator = Global.MathOperators[0];
+        else
+            mathOperator = Global.MathOperators[1];
+
+        // Damit keine Negativen Ergebnisse entstehen, müssen die Zahlen eventuell gekehrt werden.
+        if (number1 < number2 && mathOperator == '-')
+        {
+            int temp = number1;
+            number1 = number2;
+            number2 = temp;
+        }
+
+        retunrArray[0] = Convert.ToString(number1);
+        retunrArray[1] = Convert.ToString(number2);
+        retunrArray[2] = Convert.ToString(mathOperator);
+
+        return retunrArray;
+    }
+
+    static bool ShowCalculation(int number1, int number2, char mathOperator)
+    {
+        int inputResult;
+        int calculation = 0;
+
+        Console.Write("Was ergibt: {0} {1} {2} = ", number1, mathOperator, number2);
+        inputResult = Convert.ToInt32(Console.ReadLine());
+
+        switch (mathOperator)
+        {
+            case '+':
+                calculation = number1 + number2;
+                break;
+            case '-':
+                calculation = number1 - number2;
+                break;
+        }
+
+        if (inputResult == -1)
+        {
+            Global.Continue = false;
+        }
+
+        if (inputResult == calculation)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
         }
     }
 
