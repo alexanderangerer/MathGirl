@@ -1,4 +1,5 @@
 ﻿using System.Runtime.InteropServices.JavaScript;
+using System.Threading.Channels;
 
 namespace MathGirl;
 
@@ -68,13 +69,19 @@ class Program
 
             while (!inputResult && Global.Continue)
             {
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("Leider ist das falsch. Versuche es nochmals.");
                 inputResult = ShowCalculation(number1, number2, mathOperator);
+                Console.ResetColor();
             }
-            
-                Console.WriteLine("Sehr gut. Das war richtig. Weiter gehts.");
+
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("Sehr gut. Das war richtig. Weiter gehts.");
+            Console.ResetColor();
         }
-        
+
         Console.Clear();
         Global.Continue = true;
     }
@@ -93,6 +100,7 @@ class Program
                 Global.LargestNumber = Convert.ToInt32(Console.ReadLine());
                 break;
         }
+
         Console.Clear();
     }
 
@@ -162,11 +170,22 @@ class Program
     {
         byte input;
 
-        Console.WriteLine("1 - Spiel starten");
-        Console.WriteLine("2 - Programm beendet");
-        Console.WriteLine();
-        Console.WriteLine("8 - Einstellungen");
+        Console.Clear();
 
+        Console.ForegroundColor = ConsoleColor.DarkRed;
+        Console.WriteLine("*** MathGirl ***");
+        Console.WriteLine("****************");
+        Console.WriteLine();
+        Console.ResetColor();
+
+        Console.ForegroundColor = ConsoleColor.Green;
+        Console.WriteLine("[1] Spiel starten");
+        Console.WriteLine("[2] Programm beenden");
+        Console.WriteLine();
+        Console.WriteLine("[8] Einstellungen");
+        Console.ResetColor();
+
+        Console.Write("Aktion: ");
         input = Convert.ToByte(Console.ReadLine());
         return input;
     }
@@ -177,7 +196,18 @@ class Program
         Console.Write("Passwort: ");
         if (Console.ReadLine() == "aaPhoto80")
         {
-            Console.WriteLine("1 - Grösste Zahl festlegen");
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.DarkRed;
+            Console.WriteLine("*** Einstellungen ***");
+            Console.WriteLine("*********************");
+            Console.ResetColor();
+            Console.WriteLine();
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("[1] Grösste Zahl festlegen");
+            Console.WriteLine();
+            Console.WriteLine("[0] Zurück");
+            Console.ResetColor();
 
             input = Convert.ToByte(Console.ReadLine());
             return input;
