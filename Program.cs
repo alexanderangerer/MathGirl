@@ -11,7 +11,6 @@ class Program
     {
         // Speichert die grösste Zahl, die für die Rechnungen benutzt werden soll.
         public static int LargestNumber = 20;
-        public static bool Continue = true;
 
         public static char[] MathOperators = new char[]
         {
@@ -19,6 +18,8 @@ class Program
             '-'
         };
     }
+
+    private static bool _continue = true;
 
     static void Main(string[] args)
     {
@@ -58,7 +59,7 @@ class Program
         int number2;
         char mathOperator;
 
-        while (Global.Continue)
+        while (_continue)
         {
             newNumber = NumberDetermine();
             number1 = Convert.ToInt32(newNumber[0]);
@@ -67,7 +68,7 @@ class Program
 
             inputResult = ShowCalculation(number1, number2, mathOperator);
 
-            while (!inputResult && Global.Continue)
+            while (!inputResult && _continue)
             {
                 Console.Clear();
                 Console.ForegroundColor = ConsoleColor.Red;
@@ -83,7 +84,7 @@ class Program
         }
 
         Console.Clear();
-        Global.Continue = true;
+        _continue = true;
     }
 
     static void ChangeSettings()
@@ -153,7 +154,7 @@ class Program
 
         if (inputResult == -1)
         {
-            Global.Continue = false;
+            _continue = false;
         }
 
         if (inputResult == calculation)
