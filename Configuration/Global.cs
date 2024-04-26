@@ -1,6 +1,6 @@
 using Microsoft.Extensions.Configuration;
 
-namespace MathGirl;
+namespace MathGirl.Configuration;
 
 // Globale Variablen
 // Soll später durch eine Datei mit den gespeicherten Werten ersetzt werden.
