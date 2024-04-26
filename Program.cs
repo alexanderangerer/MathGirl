@@ -1,4 +1,5 @@
 ﻿using System.Runtime.InteropServices.JavaScript;
+using System.Text.Json;
 using System.Threading.Channels;
 
 namespace MathGirl;
@@ -22,6 +23,11 @@ class Program
 
     static void Main(string[] args)
     {
+        var contents = File.ReadAllText("configuration.json");
+        var json = JsonSerializer.Deserialize<JsonElement>(contents, JsonSerializerOptions.Default);
+        var largestNumberElement = json.GetProperty("LargestNumber");
+        Global.LargestNumber = largestNumberElement.GetInt32();
+
         bool isRuning = true;
 
 
