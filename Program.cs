@@ -1,27 +1,19 @@
 ﻿using System.Runtime.InteropServices.JavaScript;
 using System.Threading.Channels;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration.Json;
 
 namespace MathGirl;
 
 class Program
 {
-    // Globale Variablen
-    // Soll später durch eine Datei mit den gespeicherten Werten ersetzt werden.
-    public static class Global
-    {
-        // Speichert die grösste Zahl, die für die Rechnungen benutzt werden soll.
-        public static int LargestNumber = 20;
-        public static bool Continue = true;
-
-        public static char[] MathOperators = new char[]
-        {
-            '+',
-            '-'
-        };
-    }
-
     static void Main(string[] args)
     {
+        var config = new ConfigurationBuilder()
+            .AddJsonFile("appSettings.json")
+            .Build();
+        Global.Initialize(config);
+        
         bool isRuning = true;
 
 
