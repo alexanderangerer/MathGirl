@@ -1,5 +1,6 @@
 ﻿using System.Runtime.InteropServices.JavaScript;
 using System.Threading.Channels;
+using MathGirl.Contents;
 // Muss noch erforscht werden.
 using System.Text.Json;
 
@@ -7,26 +8,10 @@ namespace MathGirl;
 
 class Program
 {
-    // Globale Variablen
-    // Soll später durch eine Datei mit den gespeicherten Werten ersetzt werden.
-    public static class Global
-    {
-        // Speichert die grösste Zahl, die für die Rechnungen benutzt werden soll.
-        public static int LargestNumber = 20;
-        public static bool Continue = true;
-
-        public static char[] MathOperators = new char[]
-        {
-            '+',
-            '-'
-        };
-    }
+    static bool isRuning = true;
 
     static void Main(string[] args)
     {
-        bool isRuning = true;
-
-
         while (isRuning)
         {
             byte inputUser = ShowMainMenu();
@@ -60,7 +45,7 @@ class Program
         int number2;
         char mathOperator;
 
-        while (Global.Continue)
+        while (isRuning)
         {
             newNumber = NumberDetermine();
             number1 = Convert.ToInt32(newNumber[0]);
@@ -69,7 +54,7 @@ class Program
 
             inputResult = ShowCalculation(number1, number2, mathOperator);
 
-            while (!inputResult && Global.Continue)
+            while (!inputResult && isRuning)
             {
                 Console.Clear();
                 Console.ForegroundColor = ConsoleColor.Red;
@@ -85,7 +70,7 @@ class Program
         }
 
         Console.Clear();
-        Global.Continue = true;
+        isRuning = true;
     }
 
     static void ChangeSettings()
@@ -97,9 +82,9 @@ class Program
             case 0:
                 break;
             case 1:
-                Console.WriteLine("Aktueller Wert: {0}", Global.LargestNumber);
+                Console.WriteLine("Aktueller Wert: {0}", Globals.LargestNumber);
                 Console.Write("Neue Grösste Zahl: ");
-                Global.LargestNumber = Convert.ToInt32(Console.ReadLine());
+                Globals.LargestNumber = Convert.ToInt32(Console.ReadLine());
                 break;
         }
 
@@ -109,16 +94,16 @@ class Program
     static string[] NumberDetermine()
     {
         Random rndNumber = new Random();
-        int number1 = rndNumber.Next(0, Global.LargestNumber);
-        int number2 = rndNumber.Next(0, Global.LargestNumber);
+        int number1 = rndNumber.Next(0, Globals.LargestNumber);
+        int number2 = rndNumber.Next(0, Globals.LargestNumber);
         int mathOperatorIndex = rndNumber.Next(0, 100);
         string[] retunrArray = new string[3];
         char mathOperator;
 
         if (mathOperatorIndex % 2 == 0)
-            mathOperator = Global.MathOperators[0];
+            mathOperator = Globals.MathOperators[0];
         else
-            mathOperator = Global.MathOperators[1];
+            mathOperator = Globals.MathOperators[1];
 
         // Damit keine Negativen Ergebnisse entstehen, müssen die Zahlen eventuell gekehrt werden.
         if (number1 < number2 && mathOperator == '-')
@@ -153,7 +138,7 @@ class Program
 
         if (inputResult == -1)
         {
-            Global.Continue = false;
+            isRuning = false;
         }
 
         if (inputResult == calculation)
