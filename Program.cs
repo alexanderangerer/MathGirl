@@ -1,5 +1,7 @@
 ﻿using System.Runtime.InteropServices.JavaScript;
 using System.Threading.Channels;
+// Muss noch erforscht werden.
+using System.Text.Json;
 
 namespace MathGirl;
 
@@ -121,9 +123,7 @@ class Program
         // Damit keine Negativen Ergebnisse entstehen, müssen die Zahlen eventuell gekehrt werden.
         if (number1 < number2 && mathOperator == '-')
         {
-            int temp = number1;
-            number1 = number2;
-            number2 = temp;
+            (number1, number2) = (number2, number1);
         }
 
         retunrArray[0] = Convert.ToString(number1);
