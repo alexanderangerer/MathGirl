@@ -1,5 +1,4 @@
-﻿using System.Runtime.InteropServices.JavaScript;
-using System.Threading.Channels;
+﻿using System.Threading.Channels;
 using MathGirl.Contents;
 // Muss noch erforscht werden.
 using System.Text.Json;
@@ -8,7 +7,11 @@ namespace MathGirl;
 
 class Program
 {
+    /// <summary>
+    /// Ist true, solange das Spiel weiterläuft.
+    /// </summary>
     static bool isRuning = true;
+    
 
     static void Main(string[] args)
     {
@@ -35,7 +38,10 @@ class Program
             }
         }
     }
-
+        
+    /// <summary>
+    /// Beschreibung der Methode
+    /// </summary>
     static void CreateTask()
     {
         bool inputResult = false;
@@ -73,21 +79,31 @@ class Program
         isRuning = true;
     }
 
+    /// <summary>
+    /// Zeigt die gespeicherten Einstellungen an.
+    /// </summary>
     static void ChangeSettings()
     {
+        // Hier wird das Settings-Menü aufgerufen und die Wahl des Users zurückgegeben.
         byte inputUser = ShowSettings();
 
+        // Der eingegebene Wert wird geprüft und entsprechend abgeglichen.
         switch (inputUser)
         {
             case 0:
                 break;
             case 1:
+                // Hier wird die grösste Nummer für die Rechenoperatoren gespeichert.
                 Console.WriteLine("Aktueller Wert: {0}", Globals.LargestNumber);
                 Console.Write("Neue Grösste Zahl: ");
                 Globals.LargestNumber = Convert.ToInt32(Console.ReadLine());
                 break;
+            default:
+                Console.WriteLine("Keine gültige Eingabe!");
+                break;
         }
 
+        // Bevor das nächste Menü angezeigt wird, wird der Bildschirm geleert.
         Console.Clear();
     }
 
@@ -151,6 +167,10 @@ class Program
         }
     }
 
+    /// <summary>
+    /// Zeigt das Hauptmenü 
+    /// </summary>
+    /// <returns></returns>
     static byte ShowMainMenu()
     {
         byte input;
@@ -175,11 +195,17 @@ class Program
         return input;
     }
 
+    /// <summary>
+    /// Zeigt das Einstellungs-Menü an und nimmt die Eingabe des Benutzers entgegen.
+    /// </summary>
+    /// <returns>Die Menüwahl des Users.</returns>
     static byte ShowSettings()
     {
         byte input;
+        // Damit die Einstellungen angepasst werden können, muss ein Passwort eingegeben werden.
         Console.Write("Passwort: ");
-        if (Console.ReadLine() == "aaPhoto80")
+        
+        if (Console.ReadLine() == Globals.Password)
         {
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.DarkRed;
@@ -194,6 +220,7 @@ class Program
             Console.WriteLine("[0] Zurück");
             Console.ResetColor();
 
+            // Nimmt die Auswahl des Users auf und gibt diese zurück.
             input = Convert.ToByte(Console.ReadLine());
             return input;
         }
