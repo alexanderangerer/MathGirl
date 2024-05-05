@@ -102,6 +102,13 @@ class Program
                 Console.Write("Neue Grösste Zahl: ");
                 sysSettings.LargestNumber = Convert.ToInt32(Console.ReadLine());
                 break;
+            case 2:
+                break;
+            case 3:
+                string neuPassword = DetermineNewPassword();
+                if (neuPassword != "")
+                    sysSettings.SetPassword(neuPassword); 
+                break;
             default:
                 Console.WriteLine("Keine gültige Eingabe!");
                 break;
@@ -111,6 +118,21 @@ class Program
         Console.Clear();
     }
 
+    static string DetermineNewPassword()
+    {
+        Console.Write("Neues Passwort eingeben: ");
+        string firstInputPassword = Console.ReadLine();
+        Console.Write("Passwort nochmals eingeben: ");
+        string secondInputPassword = Console.ReadLine();
+
+        if (firstInputPassword == secondInputPassword)
+        {
+            return firstInputPassword;
+        }
+
+        return "";
+    }
+    
     static string[] NumberDetermine(SystemSettings sysSettings)
     {
         Random rndNumber = new Random();
@@ -231,6 +253,8 @@ class Program
 
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("[1] Grösste Zahl festlegen");
+            Console.WriteLine("[2] Operatoren anpassen");
+            Console.WriteLine("[3] Passwort ändern");
             Console.WriteLine();
             Console.WriteLine("[0] Zurück");
             Console.ResetColor();

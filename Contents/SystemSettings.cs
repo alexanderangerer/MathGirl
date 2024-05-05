@@ -10,11 +10,10 @@ public class SystemSettings
     public int LargestNumber;
     private string Password;
     public char[] MathOperators;
+    private string path = "Contents/configuration.mg";
     
     public SystemSettings()
     {
-        string path = "Contents/configuration.mg";
-        
         string[] contents = File.ReadAllText(path).Split("\n");
 
         foreach (string configValue in contents)
@@ -49,17 +48,32 @@ public class SystemSettings
         }
     }
 
+    private void SaveNewSettings()
+    {
+        string[] newSettings = new string[]
+        {
+            "LargestNumber: " + this.LargestNumber,
+            "Password: " + this.Password,
+            "MathOperators: [" + this.MathOperators + "]"
+        };
+        
+        File.WriteAllLines(path, newSettings);
+    }
+
     public string GetPassword()
     {
-        // Encode - Verschlüsseln
-        // var utf8byte = System.Text.Encoding.UTF8.GetBytes(password);
-        // Console.WriteLine(utf8byte);
-        // var decode = System.Convert.ToBase64String(utf8byte);
-        // Console.WriteLine(decode);
-        
         // Decode - Entschlüsseln
         var encodePassword = Convert.FromBase64String(this.Password);
         return Encoding.UTF8.GetString(encodePassword);
+    }
+
+    public void SetPassword(string newPassword)
+    {
+        // Encode - Verschlüsseln
+        var utf8byte = System.Text.Encoding.UTF8.GetBytes(newPassword);
+        this.Password = System.Convert.ToBase64String(utf8byte);
+        
+        SaveNewSettings();
     }
     private void MathOperatorToArray(string operators)
     {
