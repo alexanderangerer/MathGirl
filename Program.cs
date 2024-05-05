@@ -1,7 +1,9 @@
-﻿using System.Threading.Channels;
+﻿// using System.Threading.Channels;
+
+using System.Threading.Channels;
 using MathGirl.Contents;
 // Muss noch erforscht werden.
-using System.Text.Json;
+// using System.Text.Json;
 
 namespace MathGirl;
 
@@ -10,12 +12,14 @@ class Program
     /// <summary>
     /// Ist true, solange das Spiel weiterläuft.
     /// </summary>
-    static bool isRuning = true;
+    static bool _isRuning = true;
     
 
     static void Main(string[] args)
     {
-        while (isRuning)
+        SystemSettings sysSettings = new SystemSettings();
+        
+        while (_isRuning)
         {
             byte inputUser = ShowMainMenu();
 
@@ -23,14 +27,14 @@ class Program
             {
                 case 1:
                     Console.Clear();
-                    CreateTask();
+                    CreateTask(sysSettings);
                     break;
                 case 2:
-                    isRuning = false;
+                    _isRuning = false;
                     break;
                 case 8:
                     // Globale Einstellungen anpassen.
-                    ChangeSettings();
+                    ChangeSettings(sysSettings);
                     break;
                 default:
                     Console.WriteLine("Keine gültige Eingabe.");
@@ -42,7 +46,7 @@ class Program
     /// <summary>
     /// Beschreibung der Methode
     /// </summary>
-    static void CreateTask()
+    static void CreateTask(SystemSettings sysSettings)
     {
         bool inputResult = false;
         //bool continueCalc = true;
@@ -51,16 +55,16 @@ class Program
         int number2;
         char mathOperator;
 
-        while (isRuning)
+        while (_isRuning)
         {
-            newNumber = NumberDetermine();
+            newNumber = NumberDetermine(sysSettings);
             number1 = Convert.ToInt32(newNumber[0]);
             number2 = Convert.ToInt32(newNumber[1]);
             mathOperator = Convert.ToChar(newNumber[2]);
 
             inputResult = ShowCalculation(number1, number2, mathOperator);
 
-            while (!inputResult && isRuning)
+            while (!inputResult && _isRuning)
             {
                 Console.Clear();
                 Console.ForegroundColor = ConsoleColor.Red;
@@ -76,16 +80,16 @@ class Program
         }
 
         Console.Clear();
-        isRuning = true;
+        _isRuning = true;
     }
 
     /// <summary>
     /// Zeigt die gespeicherten Einstellungen an.
     /// </summary>
-    static void ChangeSettings()
+    static void ChangeSettings(SystemSettings sysSettings)
     {
         // Hier wird das Settings-Menü aufgerufen und die Wahl des Users zurückgegeben.
-        byte inputUser = ShowSettings();
+        byte inputUser = ShowSettings(sysSettings);
 
         // Der eingegebene Wert wird geprüft und entsprechend abgeglichen.
         switch (inputUser)
@@ -94,9 +98,9 @@ class Program
                 break;
             case 1:
                 // Hier wird die grösste Nummer für die Rechenoperatoren gespeichert.
-                Console.WriteLine("Aktueller Wert: {0}", Globals.LargestNumber);
+                Console.WriteLine("Aktueller Wert: {0}", sysSettings.LargestNumber);
                 Console.Write("Neue Grösste Zahl: ");
-                Globals.LargestNumber = Convert.ToInt32(Console.ReadLine());
+                sysSettings.LargestNumber = Convert.ToInt32(Console.ReadLine());
                 break;
             default:
                 Console.WriteLine("Keine gültige Eingabe!");
@@ -107,19 +111,19 @@ class Program
         Console.Clear();
     }
 
-    static string[] NumberDetermine()
+    static string[] NumberDetermine(SystemSettings sysSettings)
     {
         Random rndNumber = new Random();
-        int number1 = rndNumber.Next(0, Globals.LargestNumber);
-        int number2 = rndNumber.Next(0, Globals.LargestNumber);
+        int number1 = rndNumber.Next(0, sysSettings.LargestNumber);
+        int number2 = rndNumber.Next(0, sysSettings.LargestNumber);
         int mathOperatorIndex = rndNumber.Next(0, 100);
         string[] retunrArray = new string[3];
         char mathOperator;
 
         if (mathOperatorIndex % 2 == 0)
-            mathOperator = Globals.MathOperators[0];
+            mathOperator = sysSettings.MathOperators[0];
         else
-            mathOperator = Globals.MathOperators[1];
+            mathOperator = sysSettings.MathOperators[1];
 
         // Damit keine Negativen Ergebnisse entstehen, müssen die Zahlen eventuell gekehrt werden.
         if (number1 < number2 && mathOperator == '-')
@@ -139,6 +143,7 @@ class Program
         int inputResult;
         int calculation = 0;
 
+        Console.WriteLine("Beendet mit -1");
         Console.Write("Was ergibt: {0} {1} {2} = ", number1, mathOperator, number2);
         inputResult = Convert.ToInt32(Console.ReadLine());
 
@@ -154,7 +159,7 @@ class Program
 
         if (inputResult == -1)
         {
-            isRuning = false;
+            _isRuning = false;
         }
 
         if (inputResult == calculation)
@@ -199,13 +204,23 @@ class Program
     /// Zeigt das Einstellungs-Menü an und nimmt die Eingabe des Benutzers entgegen.
     /// </summary>
     /// <returns>Die Menüwahl des Users.</returns>
-    static byte ShowSettings()
+    static byte ShowSettings(SystemSettings sysSettings)
     {
         byte input;
         // Damit die Einstellungen angepasst werden können, muss ein Passwort eingegeben werden.
         Console.Write("Passwort: ");
+        string inputPassword = "";
         
-        if (Console.ReadLine() == Globals.Password)
+        while (true)
+        {
+            var key = Console.ReadKey(true);
+            if (key.Key == ConsoleKey.Enter)
+                break;
+            inputPassword += key.KeyChar;
+            Console.Write("*");
+        }
+        
+        if (inputPassword == sysSettings.GetPassword())
         {
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.DarkRed;
