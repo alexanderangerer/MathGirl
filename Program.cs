@@ -1,30 +1,20 @@
-﻿using System.Runtime.InteropServices.JavaScript;
-using System.Threading.Channels;
+﻿using System.Threading.Channels;
+using MathGirl.Contents;
+// Muss noch erforscht werden.
+using System.Text.Json;
 
 namespace MathGirl;
 
 class Program
 {
-    // Globale Variablen
-    // Soll später durch eine Datei mit den gespeicherten Werten ersetzt werden.
-    public static class Global
-    {
-        // Speichert die grösste Zahl, die für die Rechnungen benutzt werden soll.
-        public static int LargestNumber = 20;
-        public static bool Continue = true;
-
-        public static char[] MathOperators = new char[]
-        {
-            '+',
-            '-'
-        };
-    }
+    /// <summary>
+    /// Ist true, solange das Spiel weiterläuft.
+    /// </summary>
+    static bool isRuning = true;
+    
 
     static void Main(string[] args)
     {
-        bool isRuning = true;
-
-
         while (isRuning)
         {
             byte inputUser = ShowMainMenu();
@@ -48,7 +38,10 @@ class Program
             }
         }
     }
-
+        
+    /// <summary>
+    /// Beschreibung der Methode
+    /// </summary>
     static void CreateTask()
     {
         bool inputResult = false;
@@ -58,7 +51,7 @@ class Program
         int number2;
         char mathOperator;
 
-        while (Global.Continue)
+        while (isRuning)
         {
             newNumber = NumberDetermine();
             number1 = Convert.ToInt32(newNumber[0]);
@@ -67,7 +60,7 @@ class Program
 
             inputResult = ShowCalculation(number1, number2, mathOperator);
 
-            while (!inputResult && Global.Continue)
+            while (!inputResult && isRuning)
             {
                 Console.Clear();
                 Console.ForegroundColor = ConsoleColor.Red;
@@ -83,47 +76,55 @@ class Program
         }
 
         Console.Clear();
-        Global.Continue = true;
+        isRuning = true;
     }
 
+    /// <summary>
+    /// Zeigt die gespeicherten Einstellungen an.
+    /// </summary>
     static void ChangeSettings()
     {
+        // Hier wird das Settings-Menü aufgerufen und die Wahl des Users zurückgegeben.
         byte inputUser = ShowSettings();
 
+        // Der eingegebene Wert wird geprüft und entsprechend abgeglichen.
         switch (inputUser)
         {
             case 0:
                 break;
             case 1:
-                Console.WriteLine("Aktueller Wert: {0}", Global.LargestNumber);
+                // Hier wird die grösste Nummer für die Rechenoperatoren gespeichert.
+                Console.WriteLine("Aktueller Wert: {0}", Globals.LargestNumber);
                 Console.Write("Neue Grösste Zahl: ");
-                Global.LargestNumber = Convert.ToInt32(Console.ReadLine());
+                Globals.LargestNumber = Convert.ToInt32(Console.ReadLine());
+                break;
+            default:
+                Console.WriteLine("Keine gültige Eingabe!");
                 break;
         }
 
+        // Bevor das nächste Menü angezeigt wird, wird der Bildschirm geleert.
         Console.Clear();
     }
 
     static string[] NumberDetermine()
     {
         Random rndNumber = new Random();
-        int number1 = rndNumber.Next(0, Global.LargestNumber);
-        int number2 = rndNumber.Next(0, Global.LargestNumber);
+        int number1 = rndNumber.Next(0, Globals.LargestNumber);
+        int number2 = rndNumber.Next(0, Globals.LargestNumber);
         int mathOperatorIndex = rndNumber.Next(0, 100);
         string[] retunrArray = new string[3];
         char mathOperator;
 
         if (mathOperatorIndex % 2 == 0)
-            mathOperator = Global.MathOperators[0];
+            mathOperator = Globals.MathOperators[0];
         else
-            mathOperator = Global.MathOperators[1];
+            mathOperator = Globals.MathOperators[1];
 
         // Damit keine Negativen Ergebnisse entstehen, müssen die Zahlen eventuell gekehrt werden.
         if (number1 < number2 && mathOperator == '-')
         {
-            int temp = number1;
-            number1 = number2;
-            number2 = temp;
+            (number1, number2) = (number2, number1);
         }
 
         retunrArray[0] = Convert.ToString(number1);
@@ -153,7 +154,7 @@ class Program
 
         if (inputResult == -1)
         {
-            Global.Continue = false;
+            isRuning = false;
         }
 
         if (inputResult == calculation)
@@ -166,6 +167,10 @@ class Program
         }
     }
 
+    /// <summary>
+    /// Zeigt das Hauptmenü 
+    /// </summary>
+    /// <returns></returns>
     static byte ShowMainMenu()
     {
         byte input;
@@ -190,11 +195,17 @@ class Program
         return input;
     }
 
+    /// <summary>
+    /// Zeigt das Einstellungs-Menü an und nimmt die Eingabe des Benutzers entgegen.
+    /// </summary>
+    /// <returns>Die Menüwahl des Users.</returns>
     static byte ShowSettings()
     {
         byte input;
+        // Damit die Einstellungen angepasst werden können, muss ein Passwort eingegeben werden.
         Console.Write("Passwort: ");
-        if (Console.ReadLine() == "aaPhoto80")
+        
+        if (Console.ReadLine() == Globals.Password)
         {
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.DarkRed;
@@ -209,6 +220,7 @@ class Program
             Console.WriteLine("[0] Zurück");
             Console.ResetColor();
 
+            // Nimmt die Auswahl des Users auf und gibt diese zurück.
             input = Convert.ToByte(Console.ReadLine());
             return input;
         }
