@@ -1,41 +1,32 @@
-using System.Runtime.InteropServices.JavaScript;
 using System.Text;
-using System.Text.Json;
-using System.Threading.Channels;
 
 namespace MathGirl.Contents;
 
 public class SystemSettings
 {
     public int LargestNumber;
-    private string Password;
-    public char[] MathOperators;
-    private string path;
-   
-    
+    private string _password = "";
+    public char[]? MathOperators;
+    private readonly string _path = "Contents/configuration.mg";
+
+
     public SystemSettings()
     {
-         path = "Contents/configuration.mg";
-    
-        string[] contents = File.ReadAllText(path).Split("\n");
+        string[] contents = File.ReadAllText(_path).Split("\n");
 
         foreach (string configValue in contents)
         {
-            // if (configValue != "{" && configValue != "}")
-            // {
-                SplitConfig(configValue);
-            // }
-            
+            SplitConfig(configValue);
         }
     }
 
     private void SplitConfig(string configItem)
     {
         char[] trimChar = { '\"', '[', ']', ',', ' ' };
-        
+
         string[] contents = configItem.Split(":");
-        string configName = contents[0];
-        string configValue = contents[1].Trim(trimChar);
+        var configName = contents[0];
+        var configValue = contents[1].Trim(trimChar);
 
         switch (configName)
         {
@@ -43,7 +34,7 @@ public class SystemSettings
                 this.LargestNumber = Convert.ToInt32(configValue);
                 break;
             case "Password":
-                this.Password = configValue;
+                this._password = configValue;
                 break;
             case "MathOperators":
                 MathOperatorToArray(configValue);
@@ -56,28 +47,29 @@ public class SystemSettings
         string[] newSettings = new string[]
         {
             "LargestNumber: " + this.LargestNumber,
-            "Password: " + this.Password,
+            "Password: " + this._password,
             "MathOperators: " + this.MathOperators
         };
-        
-        File.WriteAllLines(path, newSettings);
+
+        File.WriteAllLines(_path, newSettings);
     }
 
     public string GetPassword()
     {
         // Decode - Entschlüsseln
-        var encodePassword = Convert.FromBase64String(this.Password);
+        var encodePassword = Convert.FromBase64String(this._password);
         return Encoding.UTF8.GetString(encodePassword);
     }
 
     public void SetPassword(string newPassword)
     {
         // Encode - Verschlüsseln
-        var utf8byte = System.Text.Encoding.UTF8.GetBytes(newPassword);
-        this.Password = System.Convert.ToBase64String(utf8byte);
-        
+        var utf8Byte = Encoding.UTF8.GetBytes(newPassword);
+        this._password = Convert.ToBase64String(utf8Byte);
+
         SaveNewSettings();
     }
+
     private void MathOperatorToArray(string operators)
     {
         string[] operatorsArray = operators.Split(',');
@@ -89,6 +81,5 @@ public class SystemSettings
             char activOperator = Convert.ToChar(operatorsArray[i].Trim());
             this.MathOperators[i] = activOperator;
         }
-        
     }
 }
