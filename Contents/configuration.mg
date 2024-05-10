@@ -1,3 +1,3 @@
-LargestNumber: 20,
+LargestNumber: 50,
 Password: TGVuaWEyMDE2,
-MathOperators: [+, -]
+MathOperators: +, -

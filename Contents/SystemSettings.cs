@@ -10,18 +10,21 @@ public class SystemSettings
     public int LargestNumber;
     private string Password;
     public char[] MathOperators;
-    private string path = "Contents/configuration.mg";
+    private string path;
+   
     
     public SystemSettings()
     {
+         path = "Contents/configuration.mg";
+    
         string[] contents = File.ReadAllText(path).Split("\n");
 
         foreach (string configValue in contents)
         {
-            if (configValue != "{" && configValue != "}")
-            {
+            // if (configValue != "{" && configValue != "}")
+            // {
                 SplitConfig(configValue);
-            }
+            // }
             
         }
     }
@@ -54,7 +57,7 @@ public class SystemSettings
         {
             "LargestNumber: " + this.LargestNumber,
             "Password: " + this.Password,
-            "MathOperators: [" + this.MathOperators + "]"
+            "MathOperators: " + this.MathOperators
         };
         
         File.WriteAllLines(path, newSettings);

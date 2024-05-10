@@ -167,8 +167,18 @@ class Program
 
         Console.WriteLine("Beendet mit -1");
         Console.Write("Was ergibt: {0} {1} {2} = ", number1, mathOperator, number2);
-        inputResult = Convert.ToInt32(Console.ReadLine());
-
+        try
+        {
+            inputResult = Convert.ToInt32(Console.ReadLine());
+        }
+        catch (Exception e)
+        {
+            return false;
+            throw;
+        }
+        
+        // inputResult = Convert.ToInt32(Console.ReadLine());
+        
         switch (mathOperator)
         {
             case '+':
