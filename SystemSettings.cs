@@ -15,6 +15,10 @@ public class SystemSettings
 
         foreach (string configValue in contents)
         {
+            if (configValue == "")
+            {
+                break;
+            }
             SplitConfig(configValue);
         }
     }
