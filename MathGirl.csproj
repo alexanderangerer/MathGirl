@@ -8,9 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Update="Contents\configuration.mg">
+    <None Remove="Contents\configuration.mg" />
+    <Content Include="Contents\configuration.mg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    </Content>
   </ItemGroup>
 
 </Project>

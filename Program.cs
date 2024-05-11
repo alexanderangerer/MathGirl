@@ -1,5 +1,6 @@
 ﻿// using System.Threading.Channels;
 
+using System.Reflection;
 using System.Threading.Channels;
 using MathGirl.Contents;
 // Muss noch erforscht werden.
@@ -17,6 +18,14 @@ class Program
 
     static void Main(string[] args)
     {
+        // Environment.CurrentDirectory: Enthält oder gibt das Arbeitsverzeichnis an.
+        // Path.GetDirectoryName: Ermittelt Informationen über das angegebene Verzeichnis.
+        // Assembly.GetEntryAssembly(): Ruft die ausführbare Prozessordatei auf.
+        // ?.Location) ?? "~"
+        // Diese Zeile Code setzt den in der App benutzten relativen Pfad auf jenen in welchen die
+        // App gestartet wurde.
+        Environment.CurrentDirectory = Path.GetDirectoryName(Assembly.GetEntryAssembly()?.Location) ?? "~";
+        
         SystemSettings sysSettings = new SystemSettings();
         
         while (_isRuning)
@@ -98,9 +107,9 @@ class Program
                 break;
             case 1:
                 // Hier wird die grösste Nummer für die Rechenoperatoren gespeichert.
-                Console.WriteLine("Aktueller Wert: {0}", sysSettings.LargestNumber);
+                Console.WriteLine("Aktueller Wert: {0}", sysSettings.GetLargestNumber());
                 Console.Write("Neue Grösste Zahl: ");
-                sysSettings.LargestNumber = Convert.ToInt32(Console.ReadLine());
+                sysSettings.SetLargestNumber(Convert.ToInt32(Console.ReadLine()));
                 break;
             case 2:
                 break;
@@ -136,8 +145,8 @@ class Program
     static string[] NumberDetermine(SystemSettings sysSettings)
     {
         Random rndNumber = new Random();
-        int number1 = rndNumber.Next(0, sysSettings.LargestNumber);
-        int number2 = rndNumber.Next(0, sysSettings.LargestNumber);
+        int number1 = rndNumber.Next(0, sysSettings.GetLargestNumber());
+        int number2 = rndNumber.Next(0, sysSettings.GetLargestNumber());
         int mathOperatorIndex = rndNumber.Next(0, 100);
         string[] retunrArray = new string[3];
         char mathOperator;

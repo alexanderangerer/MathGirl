@@ -4,11 +4,10 @@ namespace MathGirl.Contents;
 
 public class SystemSettings
 {
-    public int LargestNumber;
+    private int _largestNumber;
     private string _password = "";
     public char[]? MathOperators;
-    private readonly string _path = "Contents/configuration.mg";
-
+    private readonly string _path = "Contents/configuration.mg"; //"Contents/configuration.mg";
 
     public SystemSettings()
     {
@@ -31,7 +30,7 @@ public class SystemSettings
         switch (configName)
         {
             case "LargestNumber":
-                this.LargestNumber = Convert.ToInt32(configValue);
+                this._largestNumber = Convert.ToInt32(configValue);
                 break;
             case "Password":
                 this._password = configValue;
@@ -46,7 +45,7 @@ public class SystemSettings
     {
         string[] newSettings = new string[]
         {
-            "LargestNumber: " + this.LargestNumber,
+            "LargestNumber: " + this._largestNumber,
             "Password: " + this._password,
             "MathOperators: " + this.MathOperators
         };
@@ -67,6 +66,17 @@ public class SystemSettings
         var utf8Byte = Encoding.UTF8.GetBytes(newPassword);
         this._password = Convert.ToBase64String(utf8Byte);
 
+        SaveNewSettings();
+    }
+
+    public int GetLargestNumber()
+    {
+        return this._largestNumber;
+    }
+
+    public void SetLargestNumber(int newLargestNumber)
+    {
+        this._largestNumber = newLargestNumber;
         SaveNewSettings();
     }
 
