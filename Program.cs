@@ -297,6 +297,14 @@ class Program
             input = Convert.ToByte(Console.ReadLine());
             return input;
         }
+        else if (inputPassword == "help")
+        {
+            Console.WriteLine("");
+            Console.WriteLine("Das Passwort wurde auf \"admin\" zurückgesetzt");
+            sysSettings.SetPassword("admin");
+            Console.ReadKey();
+            return 0;
+        }
         else
         {
             Console.WriteLine("Falsches Passwort!");

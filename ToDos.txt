@@ -2,3 +2,4 @@ ToDo Liste
 
 - Division durch 0 muss verhindert werden.
 - Division mit Nachkommastellen aktuell nicht möglich. 9 / 5 ergibt 1.
+- "Passwort Vergessen" einbauen.

@@ -2,13 +2,31 @@ using System.Text;
 
 namespace MathGirl.Contents;
 
+/// <summary>
+/// Behandelt alle Systemeinstellungen für das Spiel MathGirl.
+/// </summary>
 public class SystemSettings
 {
+    /// <summary>
+    /// Speichert die grösste Zahl, welche zum Rechnen verwendet werden soll.
+    /// </summary>
     private int _largestNumber;
+    /// <summary>
+    /// Speichert das Passwort in verschlüsselter Form.
+    /// </summary>
     private string _password = "";
+    /// <summary>
+    /// Enthält alle mathematischen Operatoren, die zum Rechnen verwenden darf.
+    /// </summary>
     public char[]? MathOperators;
+    /// <summary>
+    /// Speichert den 
+    /// </summary>
     private readonly string _path = "Contents/configuration.mg"; //"Contents/configuration.mg";
 
+    /// <summary>
+    /// Der Konstruktor initialisiert alle Variablen mit den Werten aus der configuration.mg Datei.
+    /// </summary>
     public SystemSettings()
     {
         string[] contents = File.ReadAllText(_path).Split("\n");
