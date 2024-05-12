@@ -94,17 +94,15 @@ public class SystemSettings
     public void SetMathOperators(string newMathOperators)
     {
         string newMathOperatorsForArray = "";
-        char lastSign = newMathOperators[newMathOperators.Length - 1];
+        string newMathOperatorsTrim = newMathOperators.Trim();
+        char lastSign = newMathOperators[newMathOperatorsTrim.Length - 1];
 
         if (lastSign == ',')
         {
-            MathOperatorToArray(newMathOperators);
-            //newMathOperatorsForArray = newMathOperators.Remove(0, newMathOperators.Length - 1);
+            newMathOperatorsTrim = newMathOperatorsTrim.Substring(0, newMathOperatorsTrim.Length - 1);
         }
-        // else
-        // {
-        //     newMathOperatorsForArray = newMathOperators;
-        // }
+        
+        MathOperatorToArray(newMathOperatorsTrim);
         
         SaveNewSettings();
     }
@@ -117,8 +115,11 @@ public class SystemSettings
 
         for (int i = 0; i < operatorsArray.Length; i++)
         {
-            char activOperator = Convert.ToChar(operatorsArray[i].Trim());
-            this.MathOperators[i] = activOperator;
+            if (operatorsArray[i] != "")
+            {
+                char activOperator = Convert.ToChar(operatorsArray[i].Trim());
+                this.MathOperators[i] = activOperator;
+            }
         }
     }
     private string MathOperatorToString()

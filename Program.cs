@@ -151,19 +151,24 @@ class Program
         Random rndNumber = new Random();
         int number1 = rndNumber.Next(0, sysSettings.GetLargestNumber());
         int number2 = rndNumber.Next(0, sysSettings.GetLargestNumber());
-        int mathOperatorIndex = rndNumber.Next(0, 100);
+        int mathOperatorIndex = rndNumber.Next(0, sysSettings.MathOperators.Length);
         string[] retunrArray = new string[3];
         char mathOperator;
 
-        if (mathOperatorIndex % 2 == 0)
-            mathOperator = sysSettings.MathOperators[0];
-        else
-            mathOperator = sysSettings.MathOperators[1];
+        mathOperator = sysSettings.MathOperators[mathOperatorIndex];
+        // if (mathOperatorIndex % 2 == 0)
+        //     mathOperator = sysSettings.MathOperators[0];
+        // else
+        //     mathOperator = sysSettings.MathOperators[mathOperatorIndex];
 
         // Damit keine Negativen Ergebnisse entstehen, müssen die Zahlen eventuell gekehrt werden.
         if (number1 < number2 && mathOperator == '-')
         {
             (number1, number2) = (number2, number1);
+        }
+        else if (number1 < number2 && mathOperator == '/')
+        {
+                (number1, number2) = (number2, number1);
         }
 
         retunrArray[0] = Convert.ToString(number1);
@@ -199,6 +204,12 @@ class Program
                 break;
             case '-':
                 calculation = number1 - number2;
+                break;
+            case '*':
+                calculation = number1 * number2;
+                break;
+            case '/':
+                calculation = number1 / number2;
                 break;
         }
 
