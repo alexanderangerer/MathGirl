@@ -112,6 +112,10 @@ class Program
                 sysSettings.SetLargestNumber(Convert.ToInt32(Console.ReadLine()));
                 break;
             case 2:
+                // Hier werden die Operatoren 
+                Console.WriteLine("Aktuelle eingesetzte Operatoren: {0}", sysSettings.GetMathOperators());
+                Console.Write("Operatoren durch , getrennt eingeben:");
+                sysSettings.SetMathOperators(Console.ReadLine());
                 break;
             case 3:
                 string neuPassword = DetermineNewPassword();
@@ -288,4 +292,6 @@ class Program
             return 0;
         }
     }
+
+    
 }

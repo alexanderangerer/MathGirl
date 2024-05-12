@@ -47,11 +47,13 @@ public class SystemSettings
 
     private void SaveNewSettings()
     {
+        string toSaveMathOperator = this.MathOperatorToString();
+        
         string[] newSettings = new string[]
         {
             "LargestNumber: " + this._largestNumber,
             "Password: " + this._password,
-            "MathOperators: " + this.MathOperators
+            "MathOperators: " + toSaveMathOperator
         };
 
         File.WriteAllLines(_path, newSettings);
@@ -84,6 +86,29 @@ public class SystemSettings
         SaveNewSettings();
     }
 
+    public string GetMathOperators()
+    {
+        return this.MathOperatorToString();
+    }
+
+    public void SetMathOperators(string newMathOperators)
+    {
+        string newMathOperatorsForArray = "";
+        char lastSign = newMathOperators[newMathOperators.Length - 1];
+
+        if (lastSign == ',')
+        {
+            MathOperatorToArray(newMathOperators);
+            //newMathOperatorsForArray = newMathOperators.Remove(0, newMathOperators.Length - 1);
+        }
+        // else
+        // {
+        //     newMathOperatorsForArray = newMathOperators;
+        // }
+        
+        SaveNewSettings();
+    }
+
     private void MathOperatorToArray(string operators)
     {
         string[] operatorsArray = operators.Split(',');
@@ -95,5 +120,17 @@ public class SystemSettings
             char activOperator = Convert.ToChar(operatorsArray[i].Trim());
             this.MathOperators[i] = activOperator;
         }
+    }
+    private string MathOperatorToString()
+    {
+        string saveString = "";
+        for (int i = 0; i < this.MathOperators.Length; i++)
+        {
+            saveString += this.MathOperators[i] + ",";
+        }
+
+        saveString = saveString.Substring(0, saveString.Length - 1);
+
+        return saveString;
     }
 }
