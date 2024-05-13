@@ -1,6 +1,6 @@
 using System.Text;
 
-namespace MathGirl.Contents;
+namespace MathGirl;
 
 /// <summary>
 /// Behandelt alle Systemeinstellungen für das Spiel MathGirl.
@@ -157,7 +157,6 @@ public class SystemSettings
     /// <param name="newMathOperators">Die neuen Operatoren.</param>
     public void SetMathOperators(string newMathOperators)
     {
-        string newMathOperatorsForArray = "";
         // Im übergebenen String werden eventuell vorhandene Leerzeichen entfernt.
         string newMathOperatorsTrim = newMathOperators.Trim();
         // Das letzte Zeichen des Strings wird gespeichert.

@@ -1,10 +1,4 @@
-﻿// using System.Threading.Channels;
-
-using System.Reflection;
-using System.Threading.Channels;
-using MathGirl.Contents;
-// Muss noch erforscht werden.
-// using System.Text.Json;
+﻿using System.Reflection;
 
 namespace MathGirl;
 
@@ -65,28 +59,18 @@ class Program
     /// </summary>
     static void CreateTask(SystemSettings sysSettings)
     {
-        // Speichert ob der Benutzer die Aufgabe korrekt gelöst hat.
-        bool inputResult = false;
-        // Speichert die Zahlen und den mathematischen Operator
-        string[] newNumber = new string[3];
-        // Speichert die beiden Zahlen ..
-        int number1;
-        int number2;
-        // .. und den mathematischen Operator.
-        char mathOperator;
-
         // Solange die globale Variable true ist, wird die Schleife weiter durchlaufen.
         while (_isRuning)
         {
             // Zuerst werden die Zahlen und der math. Operator ermittelt
-            newNumber = NumberDetermine(sysSettings);
+            string[] newNumber = NumberDetermine(sysSettings);
             // Das Array wird auf die 3 Variablen erteilt.
-            number1 = Convert.ToInt32(newNumber[0]);
-            number2 = Convert.ToInt32(newNumber[1]);
-            mathOperator = Convert.ToChar(newNumber[2]);
+            var number1 = Convert.ToInt32(newNumber[0]);
+            var number2 = Convert.ToInt32(newNumber[1]);
+            var mathOperator = Convert.ToChar(newNumber[2]);
 
             // Nun wird die math. Rechnung ausgegeben und die Eingabe zurückgegeben.
-            inputResult = ShowCalculation(number1, number2, mathOperator);
+            var inputResult = ShowCalculation(number1, number2, mathOperator);
 
             // Wurde die math. Rechnung falsch beantwortet und die globale Variable steht auf true,
             // so wird eine Fehlermeldung ausgegeben.
@@ -163,9 +147,9 @@ class Program
     {
         // Das Passwort wird zweimal abgefragt und geprüft.
         Console.Write("Neues Passwort eingeben: ");
-        string firstInputPassword = Console.ReadLine();
+        var firstInputPassword = Console.ReadLine();
         Console.Write("Passwort nochmals eingeben: ");
-        string secondInputPassword = Console.ReadLine();
+        var secondInputPassword = Console.ReadLine();
 
         // Sind beide identisch, wird dieses zurückgegeben.
         if (firstInputPassword == secondInputPassword)
@@ -193,11 +177,10 @@ class Program
         int number2 = rndNumber.Next(0, sysSettings.GetLargestNumber() + 1);
         // Auch der mathematische Operator wird so ermittelt.
         int mathOperatorIndex = rndNumber.Next(0, sysSettings.MathOperators.Length);
-        string[] retunrArray = new string[3];
-        char mathOperator;
+        var returnArray = new string[3];
 
         // Der math. Operator wird aus der Systemeinstellungs-Klasse geholt.
-        mathOperator = sysSettings.MathOperators[mathOperatorIndex];
+        var mathOperator = sysSettings.MathOperators[mathOperatorIndex];
 
         // Damit keine Negativen Ergebnisse entstehen, müssen die Zahlen eventuell gekehrt werden.
         if (number1 < number2 && mathOperator == '-')
@@ -212,11 +195,11 @@ class Program
         }
 
         // Beide Zahlen und der Operator werden in einem Array gespeichert und zurückgegeben.
-        retunrArray[0] = Convert.ToString(number1);
-        retunrArray[1] = Convert.ToString(number2);
-        retunrArray[2] = Convert.ToString(mathOperator);
+        returnArray[0] = Convert.ToString(number1);
+        returnArray[1] = Convert.ToString(number2);
+        returnArray[2] = Convert.ToString(mathOperator);
 
-        return retunrArray;
+        return returnArray;
     }
 
     /// <summary>
@@ -243,8 +226,8 @@ class Program
         }
         catch (Exception e)
         {
+            Console.WriteLine(e.Message);
             return false;
-            throw;
         }
         
         // Der Rechnungsaufbau unterscheidet sich je nach Operator.
