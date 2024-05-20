@@ -22,7 +22,7 @@ public class SystemSettings
     /// <summary>
     /// Speichert den 
     /// </summary>
-    private readonly string _path = "Contents/configuration.mg"; //"Contents/configuration.mg";
+    private readonly string _path = "Contents/configuration.mg";
 
     /// <summary>
     /// Der Konstruktor initialisiert alle Variablen mit den Werten aus der configuration.mg Datei.
