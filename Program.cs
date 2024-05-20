@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 
+
 namespace MathGirl;
 
 class Program

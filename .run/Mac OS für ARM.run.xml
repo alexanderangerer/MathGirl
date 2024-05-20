@@ -1,0 +1,6 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Mac OS für ARM" type="DotNetFolderPublish" factoryName="Publish to folder">
+    <riderPublish include_native_libs_for_self_extract="true" produce_single_file="true" ready_to_run="true" runtime="osx-arm64" self_contained="true" target_folder="$USER_HOME$/Desktop/MathGirl" target_framework="net8.0" uuid_high="4810527402388071617" uuid_low="2611104189065102315" />
+    <method v="2" />
+  </configuration>
+</component>
