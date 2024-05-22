@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.Diagnostics;
+using System.Reflection;
 
 
 namespace MathGirl;
@@ -19,7 +20,7 @@ class Program
         // ?.Location) ?? "~"
         // Diese Zeile Code setzt den in der App benutzten relativen Pfad auf jenen in welchen die
         // App gestartet wurde.
-        Environment.CurrentDirectory = Path.GetDirectoryName(Assembly.GetEntryAssembly()?.Location) ?? "~";
+        // Environment.CurrentDirectory = Path.GetDirectoryName(Assembly.GetEntryAssembly()?.Location) ?? "~";
         
         // Hier wird die Systemeinstellung für das Programm initialisiert.
         // Der Konstruktor liest auch gleich die Daten aus der configuration.mg ein.

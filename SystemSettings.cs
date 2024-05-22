@@ -20,9 +20,10 @@ public class SystemSettings
     /// </summary>
     public char[]? MathOperators;
     /// <summary>
-    /// Speichert den 
+    /// Speichert den Pfad der Datei. Durch AppContext.BaseDirectory wird der Pfad bis zur App
+    /// ermittelt und mit dem bekannten Pfad zur Einstellungsdatei kombiniert.
     /// </summary>
-    private readonly string _path = "Contents/configuration.mg";
+    private readonly string _path = Path.Combine(AppContext.BaseDirectory, "Contents/configuration.mg");
 
     /// <summary>
     /// Der Konstruktor initialisiert alle Variablen mit den Werten aus der configuration.mg Datei.
