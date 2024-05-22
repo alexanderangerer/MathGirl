@@ -280,8 +280,8 @@ class Program
 
         // Anschliessend wird der Spieltitel in Farbe ausgegeben ...
         Console.ForegroundColor = ConsoleColor.DarkRed;
-        Console.WriteLine("*** MathGirl ***");
-        Console.WriteLine("****************");
+        Console.WriteLine("*** MathGirl 2.0 ***");
+        Console.WriteLine("********************");
         Console.WriteLine();
         Console.ResetColor();
 
