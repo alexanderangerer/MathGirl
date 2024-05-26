@@ -156,11 +156,15 @@ class Program
         // Sind beide identisch, wird dieses zurückgegeben.
         if (firstInputPassword == secondInputPassword)
         {
-            return firstInputPassword;
+            // ?? "" gibt einen leeren String zurück, falls firstInputPassword null ist
+            // return firstInputPassword ?? "";
+            
+            // // string.Empty sorgt dafür das an verschiedenen Stellen immer auf den gleichen leeren String.
+            return firstInputPassword ?? string.Empty;
         }
 
         // Wurden zwei unterschiedliche Passwörter eingegeben, wird ein Leerstring zurückgegeben.
-        return "";
+        return string.Empty;
     }
     
     /// <summary>
