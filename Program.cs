@@ -25,6 +25,7 @@ class Program
         // Hier wird die Systemeinstellung für das Programm initialisiert.
         // Der Konstruktor liest auch gleich die Daten aus der configuration.mg ein.
         SystemSettings sysSettings = new SystemSettings();
+        Console.WriteLine(GitInfo.Tag);
         
         // Solange die Variable true ist, wird die Schleife weiter durchlaufen.
         while (_isRuning)
@@ -284,7 +285,7 @@ class Program
 
         // Anschliessend wird der Spieltitel in Farbe ausgegeben ...
         Console.ForegroundColor = ConsoleColor.DarkRed;
-        Console.WriteLine("*** MathGirl 2.0 ***");
+        Console.WriteLine($"*** MathGirl {GitInfo.Tag} ***");
         Console.WriteLine("********************");
         Console.WriteLine();
         Console.ResetColor();
